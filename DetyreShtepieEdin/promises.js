@@ -1,3 +1,4 @@
+
 // detyra e pare 
 let computer ={
     rryma:true,
@@ -83,7 +84,6 @@ let computer ={
  cours().then((data)=>{
     console.log(data);
  }).catch((err)=>{
-    console.log("Profesorat ose nxenesit duhen te sigurohen !");
+    console.log("Profesorat ose nxenesit duhen te sigurohen ");
     shpalljePunes(err);
  })
-
