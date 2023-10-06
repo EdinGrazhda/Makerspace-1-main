@@ -1,5 +1,5 @@
 
-// detyra e pare 
+//detyra e pare 
 let computer ={
     rryma:true,
     bateria:false
@@ -46,7 +46,7 @@ let computer ={
 
  let kursi ={
     nxenes:true,
-    profesora:false,
+    profesora:true,
  }
 
  cours=()=>{
