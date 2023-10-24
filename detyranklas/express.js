@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 3000
-
+const userRouters=
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
@@ -14,6 +14,8 @@ app.put('/',(req,res)=>{
 app.delete('/',(req,res)=>{
     res.send("This is a delete method !!!!");
 })
+
+app.use('api/users',userRouters)
 
 app.listen(port, () => {
  console.log(`Example app listening on port ${port}`)
