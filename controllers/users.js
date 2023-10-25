@@ -1,6 +1,14 @@
+const db=require('../detyranklas/database');
 const getUsers = (req, res) => {
-    res.send('This is a GET method!!!!!!!');
+    db.query('SELECT * FROM users', (err, result) => {
+    if (err) {
+        console.error(err);
+        return res.status(500).send('Internal Server Error');
+    }
+        res.json(result);
+    });
 };
+
 
 const createUser = (req, res) => {
     res.send('This is a post method!!!!!!!');
