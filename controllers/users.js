@@ -1,21 +1,80 @@
+const { PrismaClient } = require('@prisma/client');
 const db=require('../detyranklas/database');
-const getUsers = (req, res) => {
-    db.query('SELECT * FROM users', (err, result) => {
-    if (err) {
-        console.error(err);
-        return res.status(500).send('Internal Server Error');
+const prisma = new PrismaClient();
+
+const getUsers = async (req, res) => {
+    try{
+        const users = await prisma.user.findMany(
+            {
+               where:{
+                name:{contains:'U'},//endsWith:'t'
+               },
+               orderBy:{
+                id:'desc',
+               },
+               select:{
+                email:true,
+               }
+                
+            });
+            res.json(users);
+    }catch(error){
+        res.status(500).send('interval server error!');
     }
-        res.json(result);
-    });
+    // db.query('SELECT * FROM users', (err, result) => {
+    // if (err) {
+    //     console.log(err);
+    //     return res.status(500).send('Internal Server Error');
+    // }
+    //     res.json(result);
+    // });
 };
 
 
-const createUser = (req, res) => {
-    res.send('This is a post method!!!!!!!');
+const createUser = async (req, res) => {
+    try {
+        const { name, email, password,city } = req.body;
+        const user = await prisma.user.create({
+          data: {
+            name,
+            email,
+            password,
+            city,
+            Post: {
+              create: {
+                title: "test title",
+                body: "this is a test",
+              },
+            },
+          },
+        });
+        res.json(user);
+      } catch (error) {
+        console.log(error);
+        res.status(500).send("Internal server error!");
+      }    
+    // db.query('INSERT INTO users(full_name,email,role)values(?,?,?',[full_name,email,role],(err,result)=>{
+    //     if(err){
+    //         console.log(err);
+    //         return res.status(500).send('internal server error');
+    //     }
+    //     res.status(201).send('User created succesfully !');
+    // })
 };
 
 const updateUser = (req, res) => {
-    res.send('This is a Update method!!!!!!!');
+    const userId=params.id;
+    const{full_name,email}=req.body
+    db.query('UPDATE users SET full_name=?,email=? where id=?',[full_name,email,userId],(err,result)=>{
+        if(err){
+            console.log(err);
+            return res.status(500).send('Internal server error!');
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).send('User not found.');
+        }
+        res.send('User updated successfully!');
+    })
 };
 
 const deleteUser = (req, res) => {
@@ -23,23 +82,18 @@ const deleteUser = (req, res) => {
 };
 
 const getUser = (req, res) => {
-    let users = [
-        {
-            id: 1,
-            name: 'Hadi',
-        },
-        { id: 2, name: 'Mumin' },
-        { id: 3, name: 'Ali' },
-        { id: 4, name: 'Enis' },
-    ];
-
-    let selectedUser = [];
-    for (let user of users) {
-        if (req.params.id == user.id) {
-            selectedUser = user;
-        }
+  db.query('SELECT * FROM users WHERE id=?',
+  [req.params.id],
+  (err,result)=>{
+    if(err){
+        console.log(err);
+        return res.status(500).send('Internal server code');
     }
-    res.send(selectedUser);
+    if(result.length == 0){
+        return res.status(500).send(`User with id: ${req.params.id} is not found`);
+    }
+    res.json(result);
+  })
 };
 
 module.exports = { getUsers, createUser, updateUser, deleteUser, getUser };
