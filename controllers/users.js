@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const db=require('../detyranklas/database');
 const prisma = new PrismaClient();
+const jwt = require('jsonwebtoken');
 
 const getUsers = async (req, res) => {
     try{
@@ -33,7 +34,7 @@ const getUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        const { name, email, password,city } = req.body;
+        const { name, email, password,city } = req.body;//destructuring
         const user = await prisma.user.create({
           data: {
             name,
@@ -50,7 +51,7 @@ const createUser = async (req, res) => {
         });
         res.json(user);
       } catch (error) {
-        console.log(error);
+        
         res.status(500).send("Internal server error!");
       }    
     // db.query('INSERT INTO users(full_name,email,role)values(?,?,?',[full_name,email,role],(err,result)=>{
@@ -95,5 +96,32 @@ const getUser = (req, res) => {
     res.json(result);
   })
 };
+const login= async(req,res)=>{
+  try{
+    const {email,password}=req.body;
+    const user = await prisma.user.findFirst({
+      where:{
+        email,
+        password,
+      },
+    });
+    if(user){
+      const token= await jwt.sign(user,process.env.SECRET_TOKEN,{
+        expiresIn:'5m',
+      });
+      res.json(token);
+    }else{
+      res.status(404).send('Please chek youur credentials');
+    }
+  }catch(error){
+    res.status(500).send("Internal server error!");
+  }
+}
 
-module.exports = { getUsers, createUser, updateUser, deleteUser, getUser };
+module.exports = { getUsers,
+  createUser,
+  updateUser,
+  deleteUser,
+  getUser,
+  login 
+};
