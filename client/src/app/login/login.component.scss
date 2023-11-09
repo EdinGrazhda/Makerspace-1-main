@@ -1,12 +1,31 @@
-.d-flex{
-    display: flex;
-    p:nth-child(2){
-        margin-left:5%;
-    }
-}
-.blue{
-    color:blue;
-}
-.red{
-    color:red;
-}
+
+
+// .blue{
+//     color: blue;
+// }
+
+// .red{
+//     color: red;
+// }
+
+.btn-color{
+    background-color: #0e1c36;
+    color: #fff;
+    
+  }
+  
+  .profile-image-pic{
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+  }
+  
+  
+  
+  .cardbody-color{
+    background-color: #ebf2fa;
+  }
+  
+  a{
+    text-decoration: none;
+  }
