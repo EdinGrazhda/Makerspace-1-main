@@ -11,4 +11,15 @@ export class LoginComponent {
     { id: 2, name: 'Samsung', describe: 'tamtung', price: 700 },
     { id: 3, name: 'Xiaomi', describe: 'kinez', price: 450 },
   ];
+
+  changePrice(selectedPhoneId:number,increasePrice:boolean){
+    for(let phone of this.arr){
+      if(selectedPhoneId === phone.id){
+        increasePrice ?(phone.price+=50):(phone.price-=50);
+      }
+    }
+  }
+
+
 }
+
