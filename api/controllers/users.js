@@ -1,5 +1,4 @@
 const { PrismaClient } = require('@prisma/client');
-const db=require('../detyranklas/database');
 const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 
@@ -114,6 +113,7 @@ const login= async(req,res)=>{
       res.status(404).send('Please chek youur credentials');
     }
   }catch(error){
+    console.log(error);
     res.status(500).send("Internal server error!");
   }
 }

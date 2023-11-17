@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
 const port = 3000;
-const userRouters = require('./api/routers/users');
+const userRouters = require('./routers/users');
 
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/sporteli/:id', (req, res) => {

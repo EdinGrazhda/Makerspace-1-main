@@ -5,11 +5,21 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { AboutComponent } from './about/about.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { MoviesServicesComponent } from './movies-services/movies-services.component';
 
 const routes: Routes = [{
   path:'',
   pathMatch:'full',
   redirectTo:'login',
+},
+{
+  path: 'dashboard',
+  component: DashboardComponent,
+},
+{
+  path:'MoviesServices',
+  component: MoviesServicesComponent,
 },
 {
   path:'about',
